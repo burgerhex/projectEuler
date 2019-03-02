@@ -1,4 +1,5 @@
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 /**
  * A runner class to see the solutions to the ProjectEuler problems.
@@ -15,7 +16,7 @@ public class Main {
      * @see Main#printProblem(int) printProblem
      */
     public static void main(String[] args) {
-        printProblems(1, 6);
+        printProblems(1, 7);
     }
 
     /**
@@ -120,6 +121,24 @@ public class Main {
             int sumSquared = (int) Math.pow(sum, 2);
 
             return Math.abs(sumOfSquares - sumSquared);
+        }
+    };
+
+    /**
+     * Problem number 7 found at https://projecteuler.net/problem=7.
+     */
+    private static final Problem PROBLEM7 = new Problem() {
+        @Override
+        public int solve() {
+            ArrayList<Integer> primes = new ArrayList<>();
+
+            primes.add(2);
+            for (int i = 3; primes.size() <= 10001; i += 2) {
+                if (Helpers.isPrime(i))
+                    primes.add(i);
+            }
+
+            return primes.get(10000);
         }
     };
 
