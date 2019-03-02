@@ -16,7 +16,7 @@ public class Main {
      * @see Main#printProblem(int) printProblem
      */
     public static void main(String[] args) {
-        printProblems(1, 9);
+        printProblems(1, 10);
     }
 
     /**
@@ -205,6 +205,23 @@ public class Main {
             }
 
             return 0;
+        }
+    };
+
+    /**
+     * Problem number 10 found at https://projecteuler.net/problem=10.
+     */
+    private static final Problem PROBLEM10 = new Problem() {
+        @Override
+        public long solve() {
+            long sum = 2;
+
+            for (int i = 3; i < 2000000; i += 2) {
+                if (Helpers.isPrime(i))
+                    sum += i;
+            }
+
+            return sum;
         }
     };
 
