@@ -19,6 +19,7 @@ public class Main {
         printProblem(1);
         printProblem(2);
         printProblem(3);
+        printProblem(4);
     }
 
     /**
@@ -116,6 +117,33 @@ public class Main {
     };
 
     /**
+     * Problem number 4 found at https://projecteuler.net/problem=4.
+     */
+    private static final Problem PROBLEM4 = new Problem() {
+        private boolean isPalindrome(int num) {
+            StringBuilder n = new StringBuilder(Integer.toString(num));
+
+            String start = n.substring(0, n.length() / 2);
+            String end   = n.substring((n.length() + 1) / 2);
+
+            return start.equals(new StringBuilder(end).reverse().toString());
+        }
+
+        @Override
+        public int solve() {
+            int max = 0;
+
+            for (int i = 999; i >= 100; i--) {
+                for (int j = 999; j >= 100; j--) {
+                    if (isPalindrome(i * j) && i * j > max)
+                        max = i * j;
+                }
+            }
+            return max;
+        }
+    };
+
+    /**
      * Prints the solution to a problem from this class from a specified number.
      * @param num the number of the problem to find and print
      * @throws IllegalArgumentException if problem couldn't be found, accessed, or casted correctly.
@@ -139,7 +167,13 @@ public class Main {
             throw new IllegalArgumentException("object couldn't be casted to Problem; is its type Problem?");
         }
 
-        System.out.println("Solution to problem " + num + ": " + problem.solve());
+        long startTime = System.nanoTime();
+        int solution = problem.solve();
+        long endTime   = System.nanoTime();
+
+        double seconds = (endTime - startTime) / 1000000000.0;
+
+        System.out.format("Solution to problem %3d: %10d [%.3f seconds]\n", num, solution, seconds);
     }
 
 }
