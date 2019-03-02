@@ -1,5 +1,4 @@
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 /**
  * A runner class to see the solutions to the ProjectEuler problems.
@@ -16,7 +15,7 @@ public class Main {
      * @see Main#printProblem(int) printProblem
      */
     public static void main(String[] args) {
-        printProblems(1, 5);
+        printProblems(1, 6);
     }
 
     /**
@@ -41,23 +40,13 @@ public class Main {
      * Problem number 2 found at https://projecteuler.net/problem=2.
      */
     private static final Problem PROBLEM2 = new Problem() {
-        private int fib(int n) {
-            if (n <= 2) return n;
-            else return fibIter(1, 1, n);
-        }
-
-        private int fibIter(int a, int b, int n) {
-            if (n == 0) return a;
-            else return fibIter(b, a + b, n - 1);
-        }
-
         @Override
         public int solve() {
             int sum = 0;
 
-            for (int n = 0; fib(n) <= 4000000; n++) {
-                if (fib(n) % 2 == 0)
-                    sum += fib(n);
+            for (int n = 0; Helpers.fib(n) <= 4000000; n++) {
+                if (Helpers.fib(n) % 2 == 0)
+                    sum += Helpers.fib(n);
             }
 
             return sum;
@@ -68,43 +57,11 @@ public class Main {
      * Problem number 3 found at https://projecteuler.net/problem=3.
      */
     private static final Problem PROBLEM3 = new Problem() {
-        private boolean isPrime(long num) {
-            if (num < 2)
-                return false;
-            else {
-                for (int i = 2; i < Math.sqrt(num); i++) {
-                    if (num % i == 0)
-                        return false;
-                }
-
-                return true;
-            }
-        }
-
-        private ArrayList<Integer> getPrimeFactors(long num) {
-            ArrayList<Integer> factors = new ArrayList<>();
-
-            long n = num;
-            int check = 2;
-
-            while (n > 1) {
-                if (n % check == 0) {
-                    n /= check;
-                    factors.add(check);
-                    check = 2;
-                }
-
-                check++;
-            }
-
-            return factors;
-        }
-
         @Override
         public int solve() {
             int max = 0;
 
-            for (int factor : getPrimeFactors(600851475143L)) {
+            for (int factor : Helpers.getPrimeFactors(600851475143L)) {
                 if (factor > max)
                     max = factor;
             }
@@ -117,22 +74,13 @@ public class Main {
      * Problem number 4 found at https://projecteuler.net/problem=4.
      */
     private static final Problem PROBLEM4 = new Problem() {
-        private boolean isPalindrome(int num) {
-            StringBuilder n = new StringBuilder(Integer.toString(num));
-
-            String start = n.substring(0, n.length() / 2);
-            String end   = n.substring((n.length() + 1) / 2);
-
-            return start.equals(new StringBuilder(end).reverse().toString());
-        }
-
         @Override
         public int solve() {
             int max = 0;
 
             for (int i = 999; i >= 100; i--) {
                 for (int j = 999; j >= 100; j--) {
-                    if (isPalindrome(i * j) && i * j > max)
+                    if (Helpers.isPalindrome(i * j) && i * j > max)
                         max = i * j;
                 }
             }
@@ -141,30 +89,46 @@ public class Main {
     };
 
     /**
-     * Problem number 5 found at https://projecteuler.net/problem=5
+     * Problem number 5 found at https://projecteuler.net/problem=5.
      */
     private static final Problem PROBLEM5 = new Problem() {
-        private int lcm(int a, int b) {
-            int max = Math.max(a, b);
-            int lcm = max;
-
-            while (!(lcm % a == 0 && lcm % b == 0))
-                lcm += max;
-
-            return lcm;
-        }
-
         @Override
         public int solve() {
-            int lcm = lcm(1, 2);
+            int lcm = Helpers.lcm(1, 2);
 
             for (int check = 3; check <= 20; check++)
-                lcm = lcm(lcm, check);
+                lcm = Helpers.lcm(lcm, check);
 
             return lcm;
         }
     };
 
+    /**
+     * Problem number 6 found at https://projecteuler.net/problem=6.
+     */
+    private static final Problem PROBLEM6 = new Problem() {
+        @Override
+        public int solve() {
+            int sumOfSquares = 0;
+            int sum          = 0;
+
+            for (int i = 1; i <= 100; i++) {
+                sumOfSquares += (int) Math.pow(i, 2);
+                sum          += i;
+            }
+
+            int sumSquared = (int) Math.pow(sum, 2);
+
+            return Math.abs(sumOfSquares - sumSquared);
+        }
+    };
+
+    /**
+     * Prints the solutions to multiple problems from this class.
+     * @param first the number of the first problem to print
+     * @param last the number of the last problem to print
+     * @see Main#printProblem(int) printProblem
+     */
     private static void printProblems(int first, int last) {
         for (int i = first; i <= last; i++) {
             printProblem(i);
