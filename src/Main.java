@@ -16,7 +16,7 @@ public class Main {
      * @see Main#printProblem(int) printProblem
      */
     public static void main(String[] args) {
-        printProblems(1, 8);
+        printProblems(1, 9);
     }
 
     /**
@@ -185,6 +185,26 @@ public class Main {
             }
 
             return maxProduct;
+        }
+    };
+
+    /**
+     * Problem number 9 found at https://projecteuler.net/problem=9.
+     */
+    private static final Problem PROBLEM9 = new Problem() {
+        @Override
+        public long solve() {
+            for (int a = 1; a < 1000; a++) {
+                for (int b = 1; a + b + Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)) <= 1000; b++) {
+                    double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+
+                    if ((int) c == c && a + b + (int) c == 1000) {
+                        return a * b * (int) c;
+                    }
+                }
+            }
+
+            return 0;
         }
     };
 
