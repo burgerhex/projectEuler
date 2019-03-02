@@ -16,10 +16,7 @@ public class Main {
      * @see Main#printProblem(int) printProblem
      */
     public static void main(String[] args) {
-        printProblem(1);
-        printProblem(2);
-        printProblem(3);
-        printProblem(4);
+        printProblems(1, 5);
     }
 
     /**
@@ -142,6 +139,37 @@ public class Main {
             return max;
         }
     };
+
+    /**
+     * Problem number 5 found at https://projecteuler.net/problem=5
+     */
+    private static final Problem PROBLEM5 = new Problem() {
+        private int lcm(int a, int b) {
+            int max = Math.max(a, b);
+            int lcm = max;
+
+            while (!(lcm % a == 0 && lcm % b == 0))
+                lcm += max;
+
+            return lcm;
+        }
+
+        @Override
+        public int solve() {
+            int lcm = lcm(1, 2);
+
+            for (int check = 3; check <= 20; check++)
+                lcm = lcm(lcm, check);
+
+            return lcm;
+        }
+    };
+
+    private static void printProblems(int first, int last) {
+        for (int i = first; i <= last; i++) {
+            printProblem(i);
+        }
+    }
 
     /**
      * Prints the solution to a problem from this class from a specified number.
