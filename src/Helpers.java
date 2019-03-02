@@ -33,7 +33,7 @@ public final class Helpers {
         int check = 2;
 
         while (n > 1) {
-            if (n % check == 0 && isPrime(n)) {
+            if (n % check == 0 && isPrime(check)) {
                 n /= check;
                 factors.add(check);
                 check = 2;
