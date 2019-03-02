@@ -5,15 +5,15 @@ import java.util.ArrayList;
  * A runner class to see the solutions to the ProjectEuler problems.
  * @author Aviv Shai
  * @author burgerhex
- * @version 1.0.0
+ * @version 1.0.5
  */
 @SuppressWarnings({"unused", "SameParameterValue"})
-public class Tester {
+public class Main {
 
     /**
      * The runner method for this class.
      * @param args arguments that don't make any difference
-     * @see Tester#printProblem(int) printProblem
+     * @see Main#printProblem(int) printProblem
      */
     public static void main(String[] args) {
         printProblem(1);
@@ -127,7 +127,7 @@ public class Tester {
         Problem problem;
 
         try {
-            field = Tester.class.getDeclaredField("PROBLEM" + num);
+            field = Main.class.getDeclaredField("PROBLEM" + num);
             field.setAccessible(true);
             problem = (Problem) field.get(null);
         } catch (NoSuchFieldException e) {
