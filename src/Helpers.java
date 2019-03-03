@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 @SuppressWarnings("WeakerAccess")
 public final class Helpers {
@@ -26,6 +27,21 @@ public final class Helpers {
         }
     }
 
+    public static ArrayList<Long> getFactors(long num) {
+        ArrayList<Long> factors = new ArrayList<>();
+
+        for (long i = 1; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                if (!factors.contains(i))       factors.add(i);
+                if (!factors.contains(num / i)) factors.add(num / i);
+            }
+        }
+
+        Collections.sort(factors);
+
+        return factors;
+    }
+
     public static ArrayList<Integer> getPrimeFactors(long num) {
         ArrayList<Integer> factors = new ArrayList<>();
 
@@ -43,6 +59,21 @@ public final class Helpers {
         }
 
         return factors;
+    }
+
+    public static ArrayList<Long> collatzChain(long num) {
+        ArrayList<Long> chain = new ArrayList<>();
+        chain.add(num);
+
+        while (num != 1) {
+            if (num % 2 == 0)
+                num /= 2;
+            else
+                num = 3 * num + 1;
+            chain.add(num);
+        }
+
+        return chain;
     }
 
     public static boolean isPalindrome(int num) {
