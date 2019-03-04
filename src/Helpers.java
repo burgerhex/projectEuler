@@ -77,12 +77,10 @@ public final class Helpers {
     }
 
     public static boolean isPalindrome(int num) {
-        StringBuilder n = new StringBuilder(Integer.toString(num));
+        String forward = Integer.toString(num);
+        String reverse = new StringBuilder(forward).reverse().toString();
 
-        String start = n.substring(0, n.length() / 2);
-        String end   = n.substring((n.length() + 1) / 2);
-
-        return start.equals(new StringBuilder(end).reverse().toString());
+        return forward.equals(reverse);
     }
 
     public static int lcm(int a, int b) {
