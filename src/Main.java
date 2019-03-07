@@ -1,5 +1,7 @@
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.function.Function;
 
 /**
  * A runner class to see the solutions to the ProjectEuler problems.
@@ -17,7 +19,7 @@ public class Main {
      * @see Main#printProblems(int, int) printProblems
      */
     public static void main(String[] args) {
-        printProblems(12, 14);
+        printProblems(15, 17);
     }
 
     /**
@@ -453,6 +455,109 @@ public class Main {
             }
 
             return longestNum;
+        }
+    };
+
+    /**
+     * Problem number 15 found at https://projecteuler.net/problem=15.
+     */
+    private static final Problem PROBLEM15 = new Problem() {
+        @Override
+        public long solve() {
+            // it's like a letter-word problem:
+            // 20 R's and 20 D's, so 40! permutations but
+            // there are 20 repeats of R and
+            // 20 repeats of D, so 40!/(20! * 20!)
+            // credit to https://qr.ae/TWXP1i for the hint
+
+            BigInteger result = BigInteger.valueOf(1);
+
+            for (int i = 2; i <= 40; i++)
+                result = result.multiply(BigInteger.valueOf(i));
+
+            for (int i = 2; i <= 20; i++)
+                result = result.divide(BigInteger.valueOf(i * i));
+
+            return result.longValue();
+        }
+    };
+
+    /**
+     * Problem number 16 found at https://projecteuler.net/problem=16.
+     */
+    private static final Problem PROBLEM16 = new Problem() {
+        @Override
+        public long solve() {
+            BigInteger two1000 = BigInteger.TWO.pow(1000);
+            int sum = 0;
+
+            for (char c : two1000.toString().toCharArray())
+                sum += Integer.valueOf(Character.toString(c));
+
+            return sum;
+        }
+    };
+
+    /**
+     * Problem number 17 found at https://projecteuler.net/problem=17.
+     */
+    private static final Problem PROBLEM17 = new Problem() {
+        @Override
+        public long solve() {
+            int charCount = 0;
+
+            HashMap<Integer, String> ones = new HashMap<>() {{
+                put(1, "one");   put(2, "two");   put(3, "three");
+                put(4, "four");  put(5, "five");  put(6, "six");
+                put(7, "seven"); put(8, "eight"); put(9, "nine");
+            }};
+
+            HashMap<Integer, String> tens = new HashMap<>() {{
+                put(1, "ten");     put(2, "twenty"); put(3, "thirty");
+                put(4, "forty");   put(5, "fifty");  put(6, "sixty");
+                put(7, "seventy"); put(8, "eighty"); put(9, "ninety");
+            }};
+
+            HashMap<Integer, String> specialTens = new HashMap<>() {{
+                put(10, "ten");
+                put(11, "eleven");    put(12, "twelve");   put(13, "thirteen");
+                put(14, "fourteen");  put(15, "fifteen");  put(16, "sixteen");
+                put(17, "seventeen"); put(18, "eighteen"); put(19, "nineteen");
+            }};
+
+            Function<Integer, Integer> length = n -> (n == 0)? 1 : (int) (Math.log10(n) + 1);
+            Function<Integer, String> toWords = n -> {
+                assert length.apply(n) <= 3;
+                int hundred = n / 100;
+                int ten = (n % 100) / 10;
+                int one = n % 10;
+
+                String hundredsStr = (hundred == 0)? "" : ones.get(hundred) + " hundred";
+                String tensStr = (ten < 2)? "" : tens.get(ten);
+                String onesStr = (ten == 1)? specialTens.get(10 * ten + one) : (one == 0)? "" : ones.get(one);
+
+                String result = (hundredsStr.equals(""))? "" : hundredsStr;
+                String and = (hundredsStr.equals(""))? "" : " and ";
+
+                if (!tensStr.equals("") && !onesStr.equals(""))
+                    result += and + tensStr + "-" + onesStr;
+                else if (!onesStr.equals(""))
+                    result += and + onesStr;
+                else if (!tensStr.equals(""))
+                    result += and + tensStr;
+
+                return result;
+            };
+
+            for (int i = 1; i <= 1000; i++) {
+                String words = toWords.apply(i);
+                words = words.replace(" ", "");
+                words = words.replace("-", "");
+
+                charCount += words.length();
+            }
+
+            return charCount;
         }
     };
 
